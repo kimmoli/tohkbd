@@ -111,7 +111,6 @@ bool Tohkbd::setInterruptEnable(bool state)
             int fd = tca8424_initComms(TCA_ADDR);
             if (fd < 0)
             {
-                printf("failed to start communication with TCA8424\n");
                 releaseTohInterrupt(gpio_fd);
                 gpio_fd = -1;
             }
@@ -162,19 +161,19 @@ void Tohkbd::handleGpioInterrupt()
 {
     static int haveCtrl = 0;
     int fd, code, isShift, isAlt, isCtrl;
-    char inRep[12];
+    unsigned char inRep[12];
     const char *buf;
 
     mutex.lock();
 
     fd = tca8424_initComms(TCA_ADDR);
-    if (fd < 0)
+    if (fd < 0 || tca8424_readInputReport(fd, inRep) < 0)
     {
-        printf("failed to start communication with TCA8424\n");
+        if (fd >= 0)
+            tca8424_closeComms(fd);
         mutex.unlock();
         return;
     }
-    tca8424_readInputReport(fd, inRep);
 
     buf = tca8424_processKeyMap(inRep, &code, &isShift, &isAlt, &isCtrl);
 
