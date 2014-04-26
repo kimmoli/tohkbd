@@ -1,19 +1,28 @@
-TEMPLATE = app
-CONFIG += console
-CONFIG -= app_bundle
-#CONFIG -= qt
+TARGET = tohkbd
+
 QT += dbus
 QT -= gui
 
-VERSION = \\\"'0.1-29'\\\"
-DEFINES += "VERSION_NUMBER=$${VERSION}"
+DEFINES += "APPVERSION=\\\"$${SPECVERSION}\\\""
 
+target.path = /usr/sbin/
+
+systemd.path = /etc/systemd/system/
+systemd.files = other/$${TARGET}.service
+
+vkblayout.path = /usr/share/maliit/plugins/com/jolla/layouts/
+vkblayout.files = other/$${TARGET}.conf other/$${TARGET}.qml
+
+INSTALLS += target systemd vkblayout
+
+message($${INSTALLS})
+message($${DEFINES})
 
 INCLUDEPATH += ./inc
 
 SOURCES += \
     src/tohkbd.cpp \
-	src/toh.cpp \
+    src/toh.cpp \
     src/tca8424.cpp \
     src/worker.cpp \
     src/tohkeyboard.cpp \
@@ -27,5 +36,7 @@ HEADERS += \
     inc/uinputif.h
 
 OTHER_FILES += \
-    rpm/tohkbd.spec
-
+    rpm/tohkbd.spec \
+    other/tohkbd.service \
+    other/tohkbd.conf \
+    other/tohkbd.qml
