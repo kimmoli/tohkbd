@@ -19,6 +19,27 @@ Build results available under merproject obs:
 
 * http://repo.merproject.org/obs/home:/kimmoli:/tohs/1.0.5.16_armv7hl/armv7hl/
 
-For time being it is recommended to download rpm file and install it locally, example:
+install method 1
+=======
+
+*You need developer mode enabled*
+
+Download latest rpm (the file without _debug_, e.g. tohkbd-0.30-10.9.1.jolla.armv7hl.rpm) from;
+
+* http://repo.merproject.org/obs/home:/kimmoli:/tohs/1.0.5.16_armv7hl/armv7hl/
+
+Transfer the file to phone and install it locally;
+
+``cd <to the folder where rpm is>`` e.g. ``cd /home/nemo/Downloads``
 
 ``pkcon install-local tohkbd-0.30-10.9.1.jolla.armv7hl``
+
+install method 2
+=======
+
+``ssu ar tohs http://repo.merproject.org/obs/home:/kimmoli:/tohs/1.0.5.16_armv7hl``
+
+``pkcon refresh``
+
+``pkcon install tohkbd``
+
